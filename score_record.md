@@ -175,7 +175,7 @@ class PSPNet(nn.Module):
 
 ### 3. PSPNet with deeper feature extractor with horizontal and vertical flip
 - score:0.9802712
-### 4. Base with deeper
+### 4. Base with deeper feature extractor with horizontal and vertical flip
 - score:0.9701602
 ```python=
 class BasicCNN(nn.Module):
