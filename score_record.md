@@ -1,12 +1,20 @@
 # 新訓 Final Project
 - [online link](https://aidea-web.tw/topic/285ef3be-44eb-43dd-85cc-f0388bf85ea4?fbclid=IwAR3NR9UiSB0_u4GxvOfc_xs6b7Bw0dLJfCMnJWpFb5xazd6vzBq5bV7ofDs)
 ## Paper list
-- [TEXTURE IMAGE ANALYSIS AND TEXTURE CLASSIFICATION METHODS - A REVIEW](https://arxiv.org/pdf/1904.06554.pdf)
+- ==[Pyramid Scene Parsing Network](https://arxiv.org/pdf/1612.01105.pdf)==
+    - ![](https://hackmd.io/_uploads/rkJV2wx02.png)
+- ==[Medical Image Classification Based on Deep Features Extracted by Deep Model and Statistic Feature Fusion with Multilayer Perceptron](https://www.hindawi.com/journals/cin/2018/2061516/)==
+    - ![](https://hackmd.io/_uploads/SysUnwg0h.png)
+- [TEXTURE IMAGE ANALYSIS AND TEXTURE CLASSIFICA
+TION METHODS - A REVIEW](https://arxiv.org/pdf/1904.06554.pdf)
 - [Texture CNN for Thermoelectric Metal Pipe Image Classification](https://www.researchgate.net/publication/339267812_Texture_CNN_for_Thermoelectric_Metal_Pipe_Image_Classification)
 - [Deep Learning based Feature Extraction for Texture Classification](https://www.sciencedirect.com/science/article/pii/S1877050920311613)
 - [GLCM特徵提取+CNN與MLP模型訓練Covid19分類器](https://www.kaggle.com/code/changshucheng/glcm-cnn-mlp-covid19)
 - [Image classification using topological features automatically extracted from graph representation of images](https://www.mlgworkshop.org/2019/papers/MLG2019_paper_7.pdf)
     - Topology studies topological features of spaces: namely, properties preserved under continuous deformations of the space, like the number of connected components, loops, or holes.
+- [應用多重特徵於提升材質辨識的準確性](https://ir.nctu.edu.tw/bitstream/11536/73614/1/007701.pdf)
+    - 由上述情況發現GLCM+LBP多重特徵除了在光亮環境變化下能提升其強健性，而其他環境變化提升幅度有限。其中尺度變化發生上述問題不能具有代表性。造成上述狀況推測GLCM與LBP特性過於相似，所以當其中一種特徵抽取方式無法抵抗環境變化的問題，而另一特徵抽取方式也無法抵抗相同環境變化問題，造成多重特徵無法提升整體強健性。
+ 
 ## Library
 - [MAXPOOL2D](https://pytorch.org/docs/stable/generated/torch.nn.MaxPool2d.html)
 - [ADAPTIVEMAXPOOL2D](https://pytorch.org/docs/stable/generated/torch.nn.AdaptiveMaxPool2d.html)
@@ -22,8 +30,11 @@
 - [RuntimeError: Attempting to deserialize object on a CUDA device](https://stackoverflow.com/questions/56369030/runtimeerror-attempting-to-deserialize-object-on-a-cuda-device)
 - [early stopping in PyTorch](https://stackoverflow.com/questions/71998978/early-stopping-in-pytorch)
 - [大佬，报错TypeError: unsupported operand type(s) for /: 'PngImageFile' and 'int'](https://github.com/nickliqian/cnn_captcha/issues/82)
-
+## To-do
+- [x] dataset blur
+- [x] check GLCM features
 ## Model situation
+- 
 ### 1. PSPNet version
 - 0.9561
 ```python=
@@ -118,10 +129,10 @@ class PSPNet(nn.Module):
             nn.MaxPool2d(2), # output size (N, 128, 32, 32)
         )
         # Spatial Pyramid Pooling layers
-        self.pool1 = nn.AdaptiveMaxPool2d((1, 1)) # output size (N, 64, 1, 1)
-        self.pool2 = nn.AdaptiveMaxPool2d((2, 2)) # output size (N, 64, 2, 2)
-        self.pool3 = nn.AdaptiveMaxPool2d((3, 3)) # output size (N, 64, 3, 3)
-        self.pool4 = nn.AdaptiveMaxPool2d((6, 6)) # output size (N, 64, 6, 6)
+        self.pool1 = nn.AdaptiveMaxPool2d((1, 1)) # output size (N, 128, 1, 1)
+        self.pool2 = nn.AdaptiveMaxPool2d((2, 2)) # output size (N, 128, 2, 2)
+        self.pool3 = nn.AdaptiveMaxPool2d((3, 3)) # output size (N, 128, 3, 3)
+        self.pool4 = nn.AdaptiveMaxPool2d((6, 6)) # output size (N, 128, 6, 6)
         self.con1 = nn.Conv2d(in_channels=128, out_channels=1, kernel_size=1, stride=1, padding=0) # output size (N, 1, 1, 1)
         self.con2 = nn.Conv2d(in_channels=128, out_channels=1, kernel_size=1, stride=1, padding=0) # output size (N, 1, 2, 2)
         self.con3 = nn.Conv2d(in_channels=128, out_channels=1, kernel_size=1, stride=1, padding=0) # output size (N, 1, 3, 3)
@@ -261,10 +272,10 @@ class PSPNetGLCM(nn.Module):
             nn.MaxPool2d(2), # output size (N, 128, 32, 32)
         )
         # Spatial Pyramid Pooling layers
-        self.pool1 = nn.AdaptiveMaxPool2d((1, 1)) # output size (N, 64, 1, 1)
-        self.pool2 = nn.AdaptiveMaxPool2d((2, 2)) # output size (N, 64, 2, 2)
-        self.pool3 = nn.AdaptiveMaxPool2d((3, 3)) # output size (N, 64, 3, 3)
-        self.pool4 = nn.AdaptiveMaxPool2d((6, 6)) # output size (N, 64, 6, 6)
+        self.pool1 = nn.AdaptiveMaxPool2d((1, 1)) # output size (N, 128, 1, 1)
+        self.pool2 = nn.AdaptiveMaxPool2d((2, 2)) # output size (N, 128, 2, 2)
+        self.pool3 = nn.AdaptiveMaxPool2d((3, 3)) # output size (N, 128, 3, 3)
+        self.pool4 = nn.AdaptiveMaxPool2d((6, 6)) # output size (N, 128, 6, 6)
         self.con1 = nn.Conv2d(in_channels=128, out_channels=1, kernel_size=1, stride=1, padding=0) # output size (N, 1, 1, 1)
         self.con2 = nn.Conv2d(in_channels=128, out_channels=1, kernel_size=1, stride=1, padding=0) # output size (N, 1, 2, 2)
         self.con3 = nn.Conv2d(in_channels=128, out_channels=1, kernel_size=1, stride=1, padding=0) # output size (N, 1, 3, 3)
