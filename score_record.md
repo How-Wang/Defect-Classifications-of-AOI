@@ -13,7 +13,13 @@ TION METHODS - A REVIEW](https://arxiv.org/pdf/1904.06554.pdf)
 - [Image classification using topological features automatically extracted from graph representation of images](https://www.mlgworkshop.org/2019/papers/MLG2019_paper_7.pdf)
     - Topology studies topological features of spaces: namely, properties preserved under continuous deformations of the space, like the number of connected components, loops, or holes.
 - [應用多重特徵於提升材質辨識的準確性](https://ir.nctu.edu.tw/bitstream/11536/73614/1/007701.pdf)
-    - 由上述情況發現GLCM+LBP多重特徵除了在光亮環境變化下能提升其強健性，而其他環境變化提升幅度有限。其中尺度變化發生上述問題不能具有代表性。造成上述狀況推測GLCM與LBP特性過於相似，所以當其中一種特徵抽取方式無法抵抗環境變化的問題，而另一特徵抽取方式也無法抵抗相同環境變化問題，造成多重特徵無法提升整體強健性。
+    - 測全方向GLCM無法辨識光亮變化，所以需要多選擇其他 Traditional features 去面對光亮變化
+        - LBP?
+            - NOPE
+            - 由上述情況發現GLCM+LBP多重特徵除了在光亮環境變化下能提升其強健性，而其他環境變化提升幅度有限。其中尺度變化發生上述問題不能具有代表性。造成上述狀況推測GLCM與LBP特性過於相似，所以當其中一種特徵抽取方式無法抵抗環境變化的問題，而另一特徵抽取方式也無法抵抗相同環境變化問題，造成多重特徵無法提升整體強健性。
+        - TBA
+            - YES
+            - TBA能解決光亮及雜訊的問題。
  
 ## Library
 - [MAXPOOL2D](https://pytorch.org/docs/stable/generated/torch.nn.MaxPool2d.html)
@@ -23,6 +29,8 @@ TION METHODS - A REVIEW](https://arxiv.org/pdf/1904.06554.pdf)
 - [PSPNet code](https://github.com/Lextal/pspnet-pytorch/blob/master/pspnet.py)
 - [UPSAMPLE](https://pytorch.org/docs/stable/generated/torch.nn.Upsample.html)
 - [CONV2D](https://pytorch.org/docs/stable/generated/torch.nn.Conv2d.html)
+- [numpy.ravel](https://numpy.org/doc/stable/reference/generated/numpy.ravel.html)
+- [skimage.feature.local_binary_pattern](https://scikit-image.org/docs/stable/api/skimage.feature.html#skimage.feature.local_binary_pattern)
 
 ## QA
 - [Load csv and Image dataset in pytorch](https://stackoverflow.com/questions/65231299/load-csv-and-image-dataset-in-pytorch)
@@ -30,11 +38,12 @@ TION METHODS - A REVIEW](https://arxiv.org/pdf/1904.06554.pdf)
 - [RuntimeError: Attempting to deserialize object on a CUDA device](https://stackoverflow.com/questions/56369030/runtimeerror-attempting-to-deserialize-object-on-a-cuda-device)
 - [early stopping in PyTorch](https://stackoverflow.com/questions/71998978/early-stopping-in-pytorch)
 - [大佬，报错TypeError: unsupported operand type(s) for /: 'PngImageFile' and 'int'](https://github.com/nickliqian/cnn_captcha/issues/82)
+- [使用torchvision.transforms进行图像增强](https://0809zheng.github.io/2021/11/30/transforms.html)
+
 ## To-do
 - [x] dataset blur
 - [x] check GLCM features
 ## Model situation
-- 
 ### 1. PSPNet version
 - 0.9561
 ```python=
@@ -343,3 +352,7 @@ class PSPNetGLCM(nn.Module):
         
         return x
 ```
+### 6. model 5. + LBP
+- 0.9780517
+### 7. model 6. + Data color trans
+- 0.9664611
